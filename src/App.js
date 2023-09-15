@@ -5,7 +5,7 @@ import RepoList from './components/RepoList'
 import Search from './components/Search'
 import Layout from './components/Layout'
 import repoData from './components/repos-data'
-
+import {getUser,getRepos} from './services/users'
 
 /* const repoList=[
   {
@@ -20,25 +20,34 @@ import repoData from './components/repos-data'
 
 const App = () => {
   const [user, setUser]=useState({})
-  //const [coolName, setCoolName]= useState(name)
+  const [repos, setRepos]=useState([])
 
     useEffect(()=>{
-      setUser(()=> {
-        fetch('https://api.github.com/users/meliBis')
-        .then((response)=>response.json())
-        .then((data)=> setUser(data))    
+      getUser('meliBis').then(({data,isError})=>{
+        if(isError){
+          console.log('no hemos encontrado a este crack');
+          return
+        }
+        setUser(data)
+      })
       },[])
-/*     document.getElementById('root').style.border='100px solid black'
-    setTimeout(()=>{
-      setCoolName(`Melissa Barrios ${new Date().toString()}`)
-    },1000) */
-  },[])  
+    useEffect(()=>{
+      getRepos('meliBis').then(({data,isError})=>{
+        if(isError){
+          console.log('no hemos encontrado los repos de este crack');
+          return
+        }
+        setRepos(data)
+      })
+      },[])
+
+        
   return (
     <div> 
      <Layout>
         <Profile {...user}/>
         <Filters/>
-        <RepoList repoList={repoData} />
+        <RepoList repoList={repos} />
         <Search/>
       </Layout>
     
