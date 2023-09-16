@@ -6,7 +6,7 @@ import Search from './components/Search'
 import Layout from './components/Layout'
 import repoData from './components/repos-data'
 import {getUser,getRepos} from './services/users'
-
+import { useParams } from 'react-router'
 /* const repoList=[
   {
     name:'mi primer proyecto con react',
@@ -19,27 +19,33 @@ import {getUser,getRepos} from './services/users'
 ] */
 
 const App = () => {
+  const params= useParams()
+  let username =params.user
+  if(!username ){
+    username='meliBis'
+  }
+  
   const [user, setUser]=useState({})
   const [repos, setRepos]=useState([])
 
     useEffect(()=>{
-      getUser('meliBis').then(({data,isError})=>{
+      getUser(username).then(({data,isError})=>{
         if(isError){
           console.log('no hemos encontrado a este crack');
           return
         }
         setUser(data)
       })
-      },[])
+      },[username])
     useEffect(()=>{
-      getRepos('meliBis').then(({data,isError})=>{
+      getRepos(username).then(({data,isError})=>{
         if(isError){
           console.log('no hemos encontrado los repos de este crack');
           return
         }
         setRepos(data)
       })
-      },[])
+      },[username])
 
         
   return (

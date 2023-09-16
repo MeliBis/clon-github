@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import ModalContent from './modal'
 const FiltersStyled= styled.div`
   grid-area: filters;
   background-color: blue;
@@ -9,7 +9,7 @@ const FiltersStyled= styled.div`
 const Filters = () => {
   return (
     <FiltersStyled>
-      Filters
+      <ModalContent/>
     </FiltersStyled>
   )
 }
