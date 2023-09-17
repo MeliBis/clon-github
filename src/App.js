@@ -7,16 +7,8 @@ import Layout from './components/Layout'
 import repoData from './components/repos-data'
 import {getUser,getRepos} from './services/users'
 import { useParams } from 'react-router'
-/* const repoList=[
-  {
-    name:'mi primer proyecto con react',
-    id:123,
-  },
-  {
-    name:'mi segundo proyecto co react',
-    id:122,
-  },
-] */
+import Modal from '../src/components/modal'
+
 
 const App = () => {
   const params= useParams()
@@ -27,6 +19,8 @@ const App = () => {
   
   const [user, setUser]=useState({})
   const [repos, setRepos]=useState([])
+  const [modal, setModal]=useState(false)
+  const [search, setSearch]=useState('')
 
     useEffect(()=>{
       getUser(username).then(({data,isError})=>{
@@ -49,15 +43,13 @@ const App = () => {
 
         
   return (
-    <div> 
      <Layout>
+      <Modal isActive={modal} setModal={setModal}/>
         <Profile {...user}/>
-        <Filters/>
-        <RepoList repoList={repos} />
-        <Search/>
+        <Filters setSearch={setSearch} repoListCount={repos.length}/>
+        <RepoList search={search} repoList={repos} />
+        <Search setModal={setModal}/>
       </Layout>
-    
-  </div>
   )
 }
 

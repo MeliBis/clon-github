@@ -1,4 +1,4 @@
-import React,{ useRef, useState} from "react"
+import React,{ useRef} from "react"
 import { useNavigate } from "react-router";
 import Overlay from "./Overlay";
 import styled from "styled-components";
@@ -6,40 +6,37 @@ import {ButtonContrast} from './Button'
 import InputText from "./Input-text";
 import ReactDom from 'react-dom'
 
+const modalRoot=document.getElementById('portal')
+//ReactDom.createPortal()
 
-ReactDom.createPortal()
 class ModalPortal extends React.Component{
     constructor(props){
         super(props)
-       // this.name = 'MeliBis'
+       this.el= document.createElement('div')
     }
-/*     state={
-        a:'Melissa '
-    } */
+
 /*     componentDidUpdate(){
         console.log('el componente se actualizo');
     } */
     componentWillUnmount(){ //se llama cuando el componente se va a ir
-        //console.log('el componente este a punto de desaparecer');    
+        modalRoot.removeChild(this.el)
     }
     componentDidMount(){
-/*         setTimeout(() => {
-            this.setState({
-                a:'Meli ',
-                b:this.name
-            })
-},5000) */
+        modalRoot.appendChild(this.el)
     }
     render(){
-        return ReactDom.createPortal(this.props.children,)
+        return ReactDom.createPortal(this.props.children, this.el)
     }
 }
-export default function Modal(){
-    return (
-        <ModalPortal>
-            <ModalContent />
-        </ModalPortal>
-    )
+export default function Modal({isActive, setModal}){
+    if(isActive){
+        return (
+            <ModalPortal>
+                <ModalContent setModal={setModal}/>
+            </ModalPortal>
+        )
+    }
+    return null
 }
 
 const ModalContentStyled= styled.form`
@@ -60,27 +57,19 @@ const ModalContentStyled= styled.form`
     margin: 0;
    }
 `
-function ModalContent(){
+function ModalContent({setModal}){
     const form=useRef(null)
     const navigator = useNavigate()
-    console.log({form});
-    const [isActive, setIsActive]= useState(true)
 
     function handleSubmit(event){
-        setIsActive(false)
         event.preventDefault()
-        console.log({form});
         
         const formData= new FormData(form.current)
-        console.log(formData.get('username'));
         navigator(`/${formData.get('username')}`)
+        setModal(false)
     }
     return(
     <Overlay>
-        {
-            isActive ? <Modal/> : null
-        }
-        
         <ModalContentStyled ref={form} action='' onSubmit={handleSubmit}>
             <h2 className="title">Busca a tu usuario favorito</h2>
             <InputText type='text'autoComplete="off" name='username' placeholder="Username"/>

@@ -27,9 +27,10 @@ const GlobalStyles= createGlobalStyle`
      }
    body{
     background-color: var(--bg);
-    border: 10px solid green;
-    color: var(--grey);
+/*     border: 10px solid green;
+ */    color: var(--grey);
     font: var(--body1-regular);
+    margin: 0;
 }
 
 `

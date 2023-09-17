@@ -10,11 +10,17 @@ const RepoListStyle = styled.div`
 /*   background-color: pink;
  */
 `
-const RepoList = ({repoList}) => {
-  const name = 'Meli'
+const RepoList = ({repoList, search}) => {
+  let list=repoList
+if(search !== ''){
+  list=list.filter((item)=>{
+    return item.name.search(search) >= 0
+  })
+
+}
   return (
     <RepoListStyle>
-      {repoList.map((item) =>{
+      {list.map((item) =>{
         return <RepoItem  {...item} key={item.id}/>
       })}
       </RepoListStyle>
