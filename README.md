@@ -1,4 +1,6 @@
 
+
+<img width="1365" alt="Captura de pantalla 2023-11-27 a la(s) 10 14 36" src="https://github.com/MeliBis/clon-github/assets/77559097/0b8ae117-c325-42e4-971e-e9fa11cad828">
 snippet rfsc
 {
 "reactFunctionalComponent": {
